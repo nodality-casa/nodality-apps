@@ -1,0 +1,10 @@
+Nodality software licence
+Copyright (c) 2026 808 Technology Limited (company no. 05282636). All rights reserved.
+
+This software is licensed, not sold. Use of it is governed by the Nodality
+Terms of Service for your subscription (clause 10). Without a current
+subscription you have no right to use, copy, modify or distribute it.
+
+Third-party components in this repository or in Nodality images are licensed
+under their own terms, listed in THIRD-PARTY-NOTICES and in each image's
+/licenses folder. Nothing in this file limits those licences.
