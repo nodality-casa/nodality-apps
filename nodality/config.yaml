@@ -10,5 +10,5 @@ arch:
   - aarch64
 startup: application
 boot: manual
-# TODO: image name must match what the build workflow pushes (GitHub container registry, org nodality-casa).
+# Built by the Nodality release workflow; the tag is this file's version.
 image: ghcr.io/nodality-casa/nodality

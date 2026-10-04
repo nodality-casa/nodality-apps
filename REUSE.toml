@@ -5,3 +5,9 @@ path = "**"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 808 Technology Limited"
 SPDX-License-Identifier = "LicenseRef-Nodality-Proprietary"
+
+[[annotations]]
+path = ["nodality/icon.png", "nodality/logo.png"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 808 Technology Limited (ring)", "Google LLC (Material Symbols glyphs)"]
+SPDX-License-Identifier = "Apache-2.0"
