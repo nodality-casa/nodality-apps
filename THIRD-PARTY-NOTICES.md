@@ -9,3 +9,9 @@ Components under GPL or similar carry a written source offer in the image's /lic
   Source: https://github.com/google/material-design-icons at commit 737e3324305806514d7909874fa1818ae1808232
   (symbols/web/<name>/materialsymbolsoutlined/<name>_24px.svg). Path data unchanged; recoloured and scaled, and placed inside our own ring.
   Licence text: LICENSES/Apache-2.0.txt. Not endorsed by Google.
+
+## Container base image (app images)
+- Alpine Linux 3.20.10, pinned by digest sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc.
+  Contains GPL-2.0 packages (BusyBox and others), used unmodified and not linked with our code.
+  The package list, licences, source locations and the written source offer are in each image at /licenses/SOURCE-OFFER.md.
+  To request source: support@nodality.casa, subject "Source code request".
