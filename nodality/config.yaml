@@ -1,7 +1,7 @@
 # Copyright (c) 2026 808 Technology Limited. All rights reserved.
 # SPDX-License-Identifier: LicenseRef-Nodality-Proprietary
 name: Nodality (test placeholder)
-version: "0.0.2"
+version: "0.0.3"
 slug: nodality
 description: Placeholder app for testing install and update from the Nodality repository.
 url: https://nodality.casa
