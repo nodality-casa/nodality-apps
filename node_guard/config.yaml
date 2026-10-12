@@ -1,0 +1,35 @@
+# Copyright (c) 2026 808 Technology Limited. All rights reserved.
+# SPDX-License-Identifier: LicenseRef-Nodality-Proprietary
+name: Node Guard
+version: "0.1.0"
+slug: node_guard
+description: >-
+  Part of Nodality. A safety net that makes sure Home Assistant starts again after a restart, and that only one
+  of your two instances ever runs your home. It also keeps Nodality's scheduled checks running if the Nodality app
+  itself stops. Set up by Nodality when you pair your instances; nothing to configure here.
+url: https://nodality.casa
+image: ghcr.io/nodality-casa/node_guard
+arch:
+  - aarch64
+  - amd64
+startup: services
+boot: auto
+# init: tini as PID 1 reaps the fallback scheduler's detached jobs.
+init: true
+# manager: start Core and stop the Z-Wave JS app (what the boot fence does); homeassistant_api: Nodality's
+# websocket tool talks to Core through the Supervisor proxy.
+hassio_api: true
+hassio_role: manager
+homeassistant_api: true
+# The Zigbee counter advance on boot (component to come, see device/CONTRACT.md) needs the serial ports.
+uart: true
+map:
+  - type: share
+    read_only: false
+  - type: homeassistant_config
+    read_only: false
+    path: /homeassistant
+options:
+  grace_minutes: 10
+schema:
+  grace_minutes: int(3,60)

@@ -1,0 +1,47 @@
+# Copyright (c) 2026 808 Technology Limited. All rights reserved.
+# SPDX-License-Identifier: LicenseRef-Nodality-Proprietary
+name: Node Heartbeat
+version: "0.1.0"
+slug: node_heartbeat
+description: >-
+  Part of Nodality. Gives your two Home Assistant instances one shared address and moves it to the standby
+  if the primary stops, so your phones, dashboards and devices keep reaching Home Assistant. Set up by Nodality
+  when you pair your instances; nothing to configure here.
+url: https://nodality.casa
+image: ghcr.io/nodality-casa/node_heartbeat
+arch:
+  - aarch64
+  - amd64
+startup: system
+boot: auto
+init: false
+host_network: true
+# NET_ADMIN adds and removes the address; NET_RAW sends VRRP (IP protocol 112). The Supervisor only allows a
+# fixed capability list; NET_BROADCAST is not on it and keepalived does not need it.
+privileged:
+  - NET_ADMIN
+  - NET_RAW
+map:
+  - type: share
+    read_only: false
+options:
+  interface: end0
+  # Set by Nodality when it builds the pair (no defaults for a customer's network in a public app).
+  virtual_ip: ""
+  router_id: 51
+  priority: 100
+  advert_int: 1
+  nopreempt: true
+  unicast_src_ip: ""
+  unicast_peer: ""
+  auth_pass: ""
+schema:
+  interface: match(^[a-z0-9]+$)
+  virtual_ip: match(^((\d{1,3}\.){3}\d{1,3}/\d{1,2})?$)
+  router_id: int(1,255)
+  priority: int(1,254)
+  advert_int: int(1,10)
+  nopreempt: bool
+  unicast_src_ip: match(^(\d{1,3}\.){3}\d{1,3}$)
+  unicast_peer: match(^(\d{1,3}\.){3}\d{1,3}$)
+  auth_pass: password

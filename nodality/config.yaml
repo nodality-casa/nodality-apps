@@ -1,14 +1,53 @@
 # Copyright (c) 2026 808 Technology Limited. All rights reserved.
 # SPDX-License-Identifier: LicenseRef-Nodality-Proprietary
-name: Nodality (test placeholder)
-version: "0.0.3"
+name: Nodality
+version: "0.1.0"
 slug: nodality
-description: Placeholder app for testing install and update from the Nodality repository.
+description: >-
+  Keeps your home running on a second Home Assistant. This app connects this Home Assistant to the Nodality Cloud Console
+  (an encrypted connection it opens itself; nothing is opened to the internet), runs its backups and checks, and does
+  only the actions Nodality allows; anything that changes your home needs your confirmation in the Cloud Console.
+  Register it from the Nodality panel in the sidebar with the code the panel shows.
 url: https://nodality.casa
-arch:
-  - amd64
-  - aarch64
-startup: application
-boot: manual
-# Image published to the Nodality container registry; the tag is this file's version.
 image: ghcr.io/nodality-casa/nodality
+arch:
+  - aarch64
+  - amd64
+startup: services
+boot: auto
+# init (Docker's tini as PID 1) reaps the scripts' detached grandchildren; without it zombies fill the container's
+# process limit and the scheduler stops.
+init: true
+# manager: the read-only status calls read app and Core info through the Supervisor;
+# homeassistant_api: nodality_ws.py talks to Core's websocket through the Supervisor proxy.
+hassio_api: true
+hassio_role: manager
+homeassistant_api: true
+# The guard lists /dev/serial/by-id to point ZHA at this instance's own ZBT-1. The radio restores, spare flash and
+# self-test and wipes open the sticks through the same scripts as from the SSH app.
+uart: true
+# The peer channel: the other instance's agent connects here (mutual TLS, pinned instance certificates).
+ports:
+  4175/tcp: 4175
+ports_description:
+  4175/tcp: Nodality peer channel (the other instance only)
+# The pairing panel in Home Assistant's sidebar (only the Supervisor's ingress proxy can reach it).
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:shield-home
+panel_title: Nodality
+map:
+  # /share/nodality: the scripts (bin/), state files (state/) and logs (logs/); state/agent holds routine action logs.
+  - type: share
+    read_only: false
+  # rw: the guard points ZHA at this instance's stick and keeps the standby signed out of Cloud, as from the SSH app.
+  - type: homeassistant_config
+    read_only: false
+    path: /homeassistant
+options:
+  controller: ""
+schema:
+  # host:port of the controller's agent listener.
+  controller: str
+  # Only a hint: the controller decides the node when it pairs the instance (it is in the certificate).
+  node: list(primary|standby)?
